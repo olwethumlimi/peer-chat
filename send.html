@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="id"> send</button>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="jquery.js"></script>
+    <script>
+
+
+        // function Connect(list_of_connectors){
+            
+        //     var peer = new Peer("l-1234", {
+        //         debug: 2
+        //     });
+        // }
+        var clone_connection = null
+        var peer = new Peer("l-1234", {
+            debug: 2
+        });
+        // // Create connection to destination peer specified in the input field
+        // conn = peer.connect("l-1234", {
+        //     reliable: true
+        // });
+        var id=null;
+        peer.on('open', function(d){
+            id=d
+        }); 
+     
+        peer.on('connection', function (conn) {
+           
+            conn.on('data', function (data) {
+                // Will print 'hi!'
+                console.log(data);
+
+            });
+            clone_connection = conn;
+        });
+
+
+        $("button").click(() => {
+            var data = clone_connection
+            if (data && data.open) {
+                data.send(id)
+                // data.send(data)
+                
+            }
+        })
+        // $("button").click(() => {
+
+
+
+        // })
+    </script>
+</body>
+
+</html>
